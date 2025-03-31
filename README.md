@@ -1,2 +1,6 @@
-# PHP_homework
-PHP related labs (for school).
+# TP PHP
+
+Made by:
+- Ayman ABID
+- Mohamed Yassine KALLEL
+
