@@ -6,19 +6,20 @@
     <title>Session Manager Testing</title>
 </head>
 <body>
+
     <h2>Centre de Shopping En ligne</h2>
+    
     <div>
         <?php
             require_once "SessionManagerClass.php";
 
             $sess = new SessionManager();
             $msg = "";
-            $buttonPressed = false;
 
             if (isset($_POST['reset_button'])) {
                 $sess->destroySession();
-                $sess = new SessionManager();
-                $buttonPressed = true;
+                header("Location: " . $_SERVER['PHP_SELF']);
+                exit();
             }
 
             $SessionID = $sess->getValueByKey("SessionID");
@@ -43,15 +44,6 @@
     <form action="" method="post">
         <button type="submit" name="reset_button">réinitialiser la session</button>
     </form>
-    <br>
-
-    <div>
-        <?php
-            if ($buttonPressed) {
-                echo "La session a été réinitialisée.";
-            }
-        ?>
-    </div>
     
 </body>
 </html>
