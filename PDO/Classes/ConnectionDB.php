@@ -3,6 +3,7 @@
 class ConnectionDB {
     public $debugMode = true;
     private const LOG_FILE = 'session_logs.log';
+    private static $_dbname = "managementdb";
     private static $_host = "localhost";
     private static $_user = "root";
     private static $_password = "";
@@ -10,7 +11,7 @@ class ConnectionDB {
 
     private function __construct() {
         try {
-            $host = 'mysql:host=' . self::$_host;
+            $host = 'mysql:host=' . self::$_host . ';dbname=' . self::$_dbname;
             $username = self::$_user;
             $password = self::$_password;
         
