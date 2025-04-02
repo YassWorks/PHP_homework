@@ -12,14 +12,14 @@ class Student {
     }
 
     public static function insertIntoDB(Student $s) {
-
+        
     }
 
     public static function removeFromDB(Student $s) {
 
     }
 
-    
+
 }
 
 ?>

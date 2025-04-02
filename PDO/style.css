@@ -1,0 +1,14 @@
+#header {
+    background-color: #c2c2c2;
+    padding: 10px;
+    text-align: center;
+}
+
+#navbar-list {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+}
