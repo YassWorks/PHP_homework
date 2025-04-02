@@ -12,22 +12,18 @@ class Student extends User {
     public $birthdate;
     public $section;
     public $imgUrl;
-    private static $pdo;
+    public static $pdo;
 
     private static function getDBInstance() {
         if (self::$pdo === null) {
             self::$pdo = ConnectionDB::getInstance();
             self::$pdo->query("
                 CREATE TABLE IF NOT EXISTS Student (
-                    id INT AUTO_INCREMENT PRIMARY KEY,
+                    id INT PRIMARY KEY,
                     name VARCHAR(255) NOT NULL,
-                    username VARCHAR(100) UNIQUE NOT NULL,
                     birthdate DATE NOT NULL,
                     section VARCHAR(100) NOT NULL,
-                    imgUrl VARCHAR(255),
-                    email VARCHAR(255) UNIQUE NOT NULL,
-                    password VARCHAR(255) NOT NULL,
-                    role VARCHAR(50) NOT NULL
+                    imgUrl VARCHAR(255)
                 )
             ");
         }
@@ -47,23 +43,27 @@ class Student extends User {
 
     public static function insertIntoDB(Student $s) {
         self::getDBInstance();
-        $stmt = self::$pdo->prepare("
-            INSERT INTO Student (name, username, birthdate, section, imgUrl, email, password, role)
-            VALUES (:name, :username, :birthdate, :section, :imgUrl, :email, :password, :role)
-        ");
-        $stmt->execute([
-            ':name' => $s->name,
-            ':username' => $s->username,
-            ':birthdate' => $s->birthdate,
-            ':section' => $s->section,
-            ':imgUrl' => $s->imgUrl,
-            ':email' => $s->email,
-            ':password' => $s->password,
-            ':role' => $s->role
-        ]);
-        if (self::$debugMode) {
-            $log = "[INFO]: Student \"$s->name\" added successfully\n";
-            file_put_contents(self::LOG_FILE, $log, FILE_APPEND);
+        try {
+            $stmt = self::$pdo->prepare("
+                INSERT INTO Student (id, name, birthdate, section, imgUrl)
+                VALUES (:id, :name, :birthdate, :section, :imgUrl)
+            ");
+            $stmt->execute([
+                ':id' => $s->id,
+                ':name' => $s->name,
+                ':birthdate' => $s->birthdate,
+                ':section' => $s->section,
+                ':imgUrl' => $s->imgUrl
+            ]);
+            if (self::$debugMode) {
+                $log = "[INFO]: Student \"$s->name\" added successfully\n";
+                file_put_contents(self::LOG_FILE, $log, FILE_APPEND);
+            }
+        } catch (PDOException $e) {
+            if (self::$debugMode) {
+                $log = "[ERROR]: Failed to add student \"$s->name\". Error: " . $e->getMessage() . "\n";
+                file_put_contents(self::LOG_FILE, $log, FILE_APPEND);
+            }
         }
     }
 
@@ -71,9 +71,16 @@ class Student extends User {
         self::getDBInstance();
         $stmt = self::$pdo->prepare("DELETE FROM Student WHERE id = :id");
         $stmt->execute([':id' => $s->id]);
-        if (self::$debugMode) {
-            $log = "[INFO]: Student \"$s->name\" removed successfully\n";
-            file_put_contents(self::LOG_FILE, $log, FILE_APPEND);
+        if ($stmt->rowCount() > 0) {
+            if (self::$debugMode) {
+                $log = "[INFO]: Student \"$s->name\" removed successfully\n";
+                file_put_contents(self::LOG_FILE, $log, FILE_APPEND);
+            }
+        } else {
+            if (self::$debugMode) {
+                $log = "[WARNING]: Student \"$s->name\" not found. No record removed.\n";
+                file_put_contents(self::LOG_FILE, $log, FILE_APPEND);
+            }
         }
     }
 }

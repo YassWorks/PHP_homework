@@ -14,7 +14,7 @@ include "header.html";
     <br>
     <br>
 
-    <div class="form">
+    <div>
         <form action="" method="post">
             <p>Are you sure you want to logout?</p>
             <button type="submit" name="confirm" value="yes">Yes</button>
@@ -22,5 +22,19 @@ include "header.html";
         </form>
     </div>
     
+    <?php
+
+        if (isset($_POST['confirm'])) {
+            if ($_POST['confirm'] === 'yes') {
+                header('Location: index.php');
+                exit();
+            } elseif ($_POST['confirm'] === 'no') {
+                header('Location: home.php');
+                exit();
+            }
+        }
+
+    ?>
+
 </body>
 </html>

@@ -16,7 +16,7 @@ class Section {
             self::$pdo = ConnectionDB::getInstance();
             self::$pdo->exec("
                 CREATE TABLE IF NOT EXISTS sections (
-                    id INT AUTO_INCREMENT PRIMARY KEY,
+                    id INT PRIMARY KEY,
                     designation VARCHAR(255) NOT NULL,
                     description TEXT
                 )
@@ -32,16 +32,24 @@ class Section {
 
     public static function insertIntoDB(Section $s) {
         self::getDBInstance();
-        $stmt = self::$pdo->prepare("
-            INSERT INTO sections (designation, description)
-            VALUES (:designation, :description)");
-        $stmt->execute([
-            ':designation' => $s->designation,
-            ':description' => $s->description
-        ]);
-        if (self::$debugMode) {
-            $log = "[INFO]: Section \"$s->designation\" added successfully\n";
-            file_put_contents(self::LOG_FILE, $log, FILE_APPEND);
+        try {
+            $stmt = self::$pdo->prepare("
+                INSERT INTO sections (id, designation, description)
+                VALUES (:id, :designation, :description)");
+            $stmt->execute([
+                ':id' => $s->id,
+                ':designation' => $s->designation,
+                ':description' => $s->description
+            ]);
+            if (self::$debugMode) {
+                $log = "[INFO]: Section \"$s->designation\" added successfully\n";
+                file_put_contents(self::LOG_FILE, $log, FILE_APPEND);
+            }
+        } catch (PDOException $e) {
+            if (self::$debugMode) {
+                $log = "[ERROR]: Failed to add section \"$s->designation\". Error: " . $e->getMessage() . "\n";
+                file_put_contents(self::LOG_FILE, $log, FILE_APPEND);
+            }
         }
     }
 
@@ -54,9 +62,16 @@ class Section {
         $stmt->execute([
             ':id' => $s->id
         ]);
-        if (self::$debugMode) {
-            $log = "[INFO]: Section \"$s->designation\" removed successfully\n";
-            file_put_contents(self::LOG_FILE, $log, FILE_APPEND);
+        if ($stmt->rowCount() > 0) {
+            if (self::$debugMode) {
+                $log = "[INFO]: Section \"$s->designation\" removed successfully\n";
+                file_put_contents(self::LOG_FILE, $log, FILE_APPEND);
+            }
+        } else {
+            if (self::$debugMode) {
+                $log = "[WARNING]: Section \"$s->designation\" does not exist. No deletion performed.\n";
+                file_put_contents(self::LOG_FILE, $log, FILE_APPEND);
+            }
         }
     }
 }
