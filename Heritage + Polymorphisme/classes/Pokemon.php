@@ -21,13 +21,13 @@ class Pokemon {
     public function setHp($hp) { $this->hp = max(0, $hp); }
     public function isDead() { return $this->hp <= 0; }
 
-    public function attack(Pokemon $p) {
+    public function attack(Pokemon $p, float $coeff) {
         $degat = rand($this->attackPokemon->getAttackMinimal(), $this->attackPokemon->getAttackMaximal());
         $randP = rand(1, 100);
         if ($randP <= $this->attackPokemon->getProbabilitySpecialAttack()) {
             $degat *= $this->attackPokemon->getSpecialAttack();
         }
-        $p->setHp($p->getHp() - $degat);
+        $p->setHp($p->getHp() - $coeff * $degat);
     }
 
     public function whoAmI() {
