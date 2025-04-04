@@ -8,10 +8,11 @@ class ConnectionDB {
     private static $_user = "root";
     private static $_password = "";
     private static $_db = null;
+    private static $_PORT = 3306;
 
     private function __construct() {
         try {
-            $host = 'mysql:host=' . self::$_host . ';dbname=' . self::$_dbname;
+            $host = 'mysql:host=' . self::$_host . ';dbname=' . self::$_dbname . ';port=' . self::$_PORT;
             $username = self::$_user;
             $password = self::$_password;
         
