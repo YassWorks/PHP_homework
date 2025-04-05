@@ -26,10 +26,10 @@ include "header.html";
 
         if (isset($_POST['confirm'])) {
             if ($_POST['confirm'] === 'yes') {
-                header('Location: index.php');
+                header('Location: ./index.php');
                 exit();
             } elseif ($_POST['confirm'] === 'no') {
-                header('Location: home.php');
+                header('Location: ./home.php');
                 exit();
             }
         }
