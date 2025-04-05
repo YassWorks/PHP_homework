@@ -24,8 +24,13 @@ include "header.html";
     
     <?php
 
+        require_once "Classes/SessionManagerClass.php";
+
+        $sess = new SessionManager();
+
         if (isset($_POST['confirm'])) {
             if ($_POST['confirm'] === 'yes') {
+                $sess->destroySession();
                 header('Location: ./index.php');
                 exit();
             } elseif ($_POST['confirm'] === 'no') {

@@ -1,6 +1,9 @@
 <?php 
 
 include "header.html"; 
+require_once "Classes/SessionManagerClass.php";
+
+$sess = new SessionManager();
 
 ?>
 <!DOCTYPE html>

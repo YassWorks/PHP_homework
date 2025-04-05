@@ -1,7 +1,7 @@
 <?php
 
 require_once "Pokemon.php";
-require_once __DIR__ . "/../functions/helpers.php";
+require_once "functions/helpers.php";
 
 class FirePokemon extends Pokemon {
 
