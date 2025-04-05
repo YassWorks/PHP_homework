@@ -5,11 +5,11 @@ class User {
     public static $debugMode = true;
     private const LOG_FILE = '../session_logs.log';
     // public $db_name = "User";
-    protected $id;
-    protected $username;
+    public $id;
+    public $username;
     protected $password;
-    protected $email;
-    protected $role;
+    public $email;
+    public $role;
     public static $pdo;
 
     private static function getDBInstance() {
@@ -27,7 +27,7 @@ class User {
         }
     }
 
-    public function __construct($id, $username, $password, $email, $role) {
+    public function __construct($id=null, $username=null, $password=null, $email=null, $role=null) {
         $this->id = $id;
         $this->username = $username;
         $this->password = $password;
