@@ -16,7 +16,7 @@ class User {
             self::$pdo = ConnectionDB::getInstance();
             self::$pdo->query("
                 CREATE TABLE IF NOT EXISTS User (
-                    id INT PRIMARY KEY,
+                    id INT PRIMARY KEY AUTO_INCREMENT,
                     username VARCHAR(25) NOT NULL,
                     password VARCHAR(255) NOT NULL,
                     email VARCHAR(255) NOT NULL,
