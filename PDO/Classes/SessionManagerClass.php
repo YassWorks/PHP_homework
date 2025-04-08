@@ -9,7 +9,9 @@ class SessionManager {
     }
 
     public function __construct(bool $debugMode = true) {
-        session_start();
+        if (session_status() === PHP_SESSION_NONE) {
+            session_start();
+        }
         $this->auto_require();
         $this->debugMode = $debugMode;
     }

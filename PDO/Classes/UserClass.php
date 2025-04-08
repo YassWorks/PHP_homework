@@ -17,7 +17,7 @@ class User {
             self::$pdo = ConnectionDB::getInstance();
             self::$pdo->query("
                 CREATE TABLE IF NOT EXISTS User (
-                    id INT PRIMARY KEY,
+                    id INT PRIMARY KEY AUTO_INCREMENT,
                     username VARCHAR(25) NOT NULL,
                     password VARCHAR(255) NOT NULL,
                     email VARCHAR(255) NOT NULL,
@@ -27,8 +27,7 @@ class User {
         }
     }
 
-    public function __construct($id=null, $username=null, $password=null, $email=null, $role=null) {
-        $this->id = $id;
+    public function __construct($username=null, $password=null, $email=null, $role=null) {
         $this->username = $username;
         $this->password = $password;
         $this->email = $email;
@@ -39,16 +38,16 @@ class User {
         self::getDBInstance();
         try {
             $stmt = self::$pdo->prepare("
-                INSERT INTO User (id, username, password, email, role) 
-                VALUES (:id, :username, :password, :email, :role)"
+                INSERT INTO User (username, password, email, role) 
+                VALUES (:username, :password, :email, :role)"
             );
             $stmt->execute([
-                ':id' => $s->id,
                 ':username' => $s->username,
                 ':password' => password_hash($s->password, PASSWORD_DEFAULT),
                 ':email' => $s->email,
                 ':role' => $s->role
             ]);
+            $s->id = self::$pdo->lastInsertId();
             if (self::$debugMode) {
                 $log = "[INFO]: User \"$s->username\" added successfully\n";
                 file_put_contents(self::LOG_FILE, $log, FILE_APPEND);
@@ -61,10 +60,10 @@ class User {
         }
     }
 
-    public static function removeUserFromDB(User $s) {
+    public static function removeUserFromDB($id) {
         self::getDBInstance();
         $stmt = self::$pdo->prepare("DELETE FROM User WHERE id = :id");
-        $stmt->execute([':id' => $s->id]);
+        $stmt->execute([':id' => $id]);
         if ($stmt->rowCount() > 0) {
             if (self::$debugMode) {
                 $log = "[INFO]: User \"$s->username\" removed successfully\n";
@@ -76,6 +75,15 @@ class User {
                 file_put_contents(self::LOG_FILE, $log, FILE_APPEND);
             }
         }
+    }
+    public static function fromArray(array $data): User {
+        return new self(
+            $data['id'] ?? null,
+            $data['username'] ?? null,
+            $data['password'] ?? null,
+            $data['email'] ?? null,
+            $data['role'] ?? null
+        );
     }
 }
 

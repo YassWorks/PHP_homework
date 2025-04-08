@@ -1,6 +1,6 @@
 <?php
 require_once '../Database/manageDB.php';
-require_once './UserClass.php';
+require_once __DIR__.'/UserClass.php';
 
 class Repository{
 

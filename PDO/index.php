@@ -74,6 +74,7 @@
                         // and voila! access it with $sess->getValueByKey("AdminAuth");
                         // Note: ull notice im putting $_COOKIE['PHPSESSID'] in both values. It doesn't matter u just need the key.
                     }
+                    $sess->addItemToSession("user", $user); //adding user to the session
                     $sess->addItemToSession("SuccessfulLogin", $_COOKIE['PHPSESSID']);
                     header("Location: home.php");
                     exit();

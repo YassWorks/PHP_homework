@@ -3,12 +3,13 @@
 class ConnectionDB {
     public $debugMode = true;
     private const LOG_FILE = 'session_logs.log';
+    //could it be better to import these variables from .env file
     private static $_dbname = "managementdb";
     private static $_host = "localhost";
     private static $_user = "root";
     private static $_password = "";
     private static $_db = null;
-    private static $_PORT = 3306;  // corrected port number (at least for me idk)
+    private static $_PORT = 3307;  // corrected port number (at least for me idk)
 
     private function __construct() {
         try {

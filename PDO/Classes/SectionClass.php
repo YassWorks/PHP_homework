@@ -2,7 +2,7 @@
 
 require_once "ConnectionDB.php";
 
-class Section {
+class Sections {
     public static $debugMode = true;
     private const LOG_FILE = '../session_logs.log';
     // public $db_name = "Section";
@@ -16,16 +16,15 @@ class Section {
             self::$pdo = ConnectionDB::getInstance();
             self::$pdo->exec("
                 CREATE TABLE IF NOT EXISTS sections (
-                    id INT PRIMARY KEY,
-                    designation VARCHAR(255) NOT NULL,
+                    id INT PRIMARY KEY AUTO_INCREMENT,
+                    designation VARCHAR(255) NOT NULL UNIQUE,
                     description TEXT
                 )
             ");
         }
     }
 
-    public function __construct($id, $designation, $description) {
-        $this->id = $id;
+    public function __construct($designation=null, $description=null) {
         $this->designation = $designation;
         $this->description = $description;
     }
@@ -34,10 +33,9 @@ class Section {
         self::getDBInstance();
         try {
             $stmt = self::$pdo->prepare("
-                INSERT INTO sections (id, designation, description)
-                VALUES (:id, :designation, :description)");
+                INSERT INTO sections (designation, description)
+                VALUES (:designation, :description)");
             $stmt->execute([
-                ':id' => $s->id,
                 ':designation' => $s->designation,
                 ':description' => $s->description
             ]);
@@ -53,14 +51,14 @@ class Section {
         }
     }
 
-    public static function removeFromDB(Section $s) {
+    public static function removeFromDB($id) {
         self::getDBInstance();
         $stmt = self::$pdo->prepare("
             DELETE FROM sections
             WHERE id = :id
         ");
         $stmt->execute([
-            ':id' => $s->id
+            ':id' => $id
         ]);
         if ($stmt->rowCount() > 0) {
             if (self::$debugMode) {
