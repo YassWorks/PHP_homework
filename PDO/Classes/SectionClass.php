@@ -5,7 +5,6 @@ require_once "ConnectionDB.php";
 class Sections {
     public static $debugMode = true;
     private const LOG_FILE = '../session_logs.log';
-    // public $db_name = "Section";
     public $id;
     public $designation;
     public $description;
@@ -29,7 +28,7 @@ class Sections {
         $this->description = $description;
     }
 
-    public static function insertIntoDB(Section $s) {
+    public static function insertIntoDB(Sections $s) {
         self::getDBInstance();
         try {
             $stmt = self::$pdo->prepare("
@@ -51,14 +50,14 @@ class Sections {
         }
     }
 
-    public static function removeFromDB($id) {
+    public static function removeFromDB(Sections $s) {
         self::getDBInstance();
         $stmt = self::$pdo->prepare("
             DELETE FROM sections
             WHERE id = :id
         ");
         $stmt->execute([
-            ':id' => $id
+            ':id' => $s->id
         ]);
         if ($stmt->rowCount() > 0) {
             if (self::$debugMode) {

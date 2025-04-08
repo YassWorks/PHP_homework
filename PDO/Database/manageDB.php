@@ -1,5 +1,5 @@
 <?php
-/*
+
 require_once "../Classes/ConnectionDB.php";
 require_once "../Classes/UserClass.php";
 require_once "../Classes/AdminClass.php";
@@ -17,23 +17,22 @@ $stud3 = new Student(3, "michael brown", "1999-01-01", 2, "./path");
 $usr5 = new User("david.wilson", "fgh654", "david.wilson@fake.com", "Student");
 $stud5 = new Student(4, "david wilson", '2002-08-08', 1, "./path");
 
-$gl = new Section("GL", "Genie Logiciel");
-$rt = new Section("RT", "Resaux");
+$gl = new Sections("GL", "Genie Logiciel");
+$rt = new Sections("RT", "Resaux");
 
 $secs = [$gl, $rt];
 $usrs = [$usr1, $usr2, $usr3, $usr5];
 $studs = [$stud1, $stud3, $stud5];
 
 foreach($secs as $sec) {
-    Section::insertIntoDB($sec);  
+    Sections::insertIntoDB($sec);  
 }
 foreach($usrs as $usr) {
     User::insertUserIntoDB($usr);  
 }
 
-
 foreach($studs as $stud){
     Student::insertIntoDB($stud);
 }
-*/
+
 ?>

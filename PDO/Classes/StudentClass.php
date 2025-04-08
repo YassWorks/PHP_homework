@@ -6,7 +6,6 @@ require_once "ConnectionDB.php";
 class Student extends User {
     public static $debugMode = true;
     private const LOG_FILE = '../session_logs.log';
-    // public $db_name = "Student";
     public $id;
     public $name;
     public $birthdate;
@@ -109,7 +108,7 @@ class Student extends User {
         $stmt = self::$pdo->prepare(
             "
             SELECT U.id, U.username, Stud.name, U.email, Stud.birthdate, S.id AS sec, S.designation, U.role, Stud.imgUrl
-            FROM student Stud, user U, sections S 
+            FROM student Stud, User U, sections S 
             WHERE( 
                 U.id = :id
                 AND (U.role='Student') 

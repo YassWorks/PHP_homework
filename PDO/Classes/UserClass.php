@@ -4,7 +4,6 @@ require_once "ConnectionDB.php";
 class User {
     public static $debugMode = true;
     private const LOG_FILE = '../session_logs.log';
-    // public $db_name = "User";
     public $id;
     public $username;
     protected $password;
@@ -60,10 +59,10 @@ class User {
         }
     }
 
-    public static function removeUserFromDB($id) {
+    public static function removeUserFromDB(User $s) {
         self::getDBInstance();
         $stmt = self::$pdo->prepare("DELETE FROM User WHERE id = :id");
-        $stmt->execute([':id' => $id]);
+        $stmt->execute([':id' => $s->id]);
         if ($stmt->rowCount() > 0) {
             if (self::$debugMode) {
                 $log = "[INFO]: User \"$s->username\" removed successfully\n";

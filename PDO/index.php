@@ -67,12 +67,6 @@
                 if ($user && password_verify($password, $user['password'])) {
                     if ($user['role'] == "Admin") {
                         $sess->addItemToSession("AdminAuth", $_COOKIE['PHPSESSID']);
-                        // use this session item to spot admins in the other pages.
-                        // U'll have to add the following code in each file u need that tho:
-                        // require_once "path to SessionManagerClass.php";
-                        // $sess = new SessionManager();
-                        // and voila! access it with $sess->getValueByKey("AdminAuth");
-                        // Note: ull notice im putting $_COOKIE['PHPSESSID'] in both values. It doesn't matter u just need the key.
                     }
                     $sess->addItemToSession("user", $user); //adding user to the session
                     $sess->addItemToSession("SuccessfulLogin", $_COOKIE['PHPSESSID']);

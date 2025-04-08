@@ -6,7 +6,6 @@ require_once "ConnectionDB.php";
 class Admin extends User {
     public static $debugMode = true;
     private const LOG_FILE = '../session_logs.log';
-    // public $db_name = "Admin";
     public $id;
     public $name;
     public static $pdo;
