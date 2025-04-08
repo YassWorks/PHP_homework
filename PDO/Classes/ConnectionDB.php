@@ -9,7 +9,7 @@ class ConnectionDB {
     private static $_user = "root";
     private static $_password = "";
     private static $_db = null;
-    private static $_PORT = 3307;  // corrected port number (at least for me idk)
+    private static $_PORT = 3306;  // corrected port number (at least for me idk)
 
     private function __construct() {
         try {
