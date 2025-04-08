@@ -1,5 +1,5 @@
 <?php
-require_once '../Database/manageDB.php';
+
 require_once __DIR__.'/UserClass.php';
 
 class Repository{
@@ -48,17 +48,9 @@ class Repository{
         return $stmt->rowCount() > 0;
     }
 }
+
 /*
-
-$userRepository = new Repository(new User());
-
-$allUsers = $userRepository->findAll();
-$user = $userRepository->findById(1);
-$isDeleted = $userRepository->delete(2);
-print_r($allUsers)
-*/
 ?>
-<!--
 <table>
     <thead>
         <tr>
@@ -66,6 +58,13 @@ print_r($allUsers)
         </tr>
     </thead>
     <tbody>
+        $userRepository = new Repository(new User());
+
+        $allUsers = $userRepository->findAll();
+        $user = $userRepository->findById(1);
+        $isDeleted = $userRepository->delete(2);
+        print_r($allUsers)
+
         <?php foreach ($allUsers as $user): ?>
             <tr>
                 <td><?= htmlspecialchars($user->id) ?></td>
@@ -73,6 +72,7 @@ print_r($allUsers)
                 <td><?= htmlspecialchars($user->role) ?></td>
             </tr>
         <?php endforeach; ?>
+        
     </tbody>
 </table>
-        -->
+*/

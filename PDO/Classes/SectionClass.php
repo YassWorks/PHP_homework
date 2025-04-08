@@ -28,6 +28,33 @@ class Sections {
         $this->description = $description;
     }
 
+    public function updateSection($designation, $description) {
+        $this->designation = $designation;
+        $this->description = $description;
+        self::getDBInstance();
+        $stmt = self::$pdo->prepare("
+            UPDATE sections
+            SET designation = :designation, description = :description
+            WHERE id = :id
+        ");
+        $stmt->execute([
+            ':id' => $this->id,
+            ':designation' => $this->designation,
+            ':description' => $this->description
+        ]);
+        if ($stmt->rowCount() > 0) {
+            if (self::$debugMode) {
+                $log = "[INFO]: Section \"$this->designation\" updated successfully\n";
+                file_put_contents(self::LOG_FILE, $log, FILE_APPEND);
+            }
+        } else {
+            if (self::$debugMode) {
+                $log = "[WARNING]: Section \"$this->designation\" does not exist. No update performed.\n";
+                file_put_contents(self::LOG_FILE, $log, FILE_APPEND);
+            }
+        }
+    }
+
     public static function insertIntoDB(Sections $s) {
         self::getDBInstance();
         try {

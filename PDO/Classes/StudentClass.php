@@ -46,6 +46,37 @@ class Student extends User {
         $this->imgUrl = $imgUrl;
     }
 
+    public function updateStudent($name, $birthdate, $section, $imgUrl) {
+        $this->name = $name;
+        $this->birthdate = $birthdate;
+        $this->section = $section;
+        $this->imgUrl = $imgUrl;
+        self::getDBInstance();
+        $stmt = self::$pdo->prepare("
+            UPDATE Student
+            SET name = :name, birthdate = :birthdate, section = :section, imgUrl = :imgUrl
+            WHERE id = :id
+        ");
+        $stmt->execute([
+            ':id' => $this->id,
+            ':name' => $this->name,
+            ':birthdate' => $this->birthdate,
+            ':section' => $this->section,
+            ':imgUrl' => $this->imgUrl
+        ]);
+        if ($stmt->rowCount() > 0) {
+            if (self::$debugMode) {
+                $log = "[INFO]: Student \"$this->name\" updated successfully\n";
+                file_put_contents(self::LOG_FILE, $log, FILE_APPEND);
+            }
+        } else {
+            if (self::$debugMode) {
+                $log = "[WARNING]: Student \"$this->name\" does not exist. No update performed.\n";
+                file_put_contents(self::LOG_FILE, $log, FILE_APPEND);
+            }
+        }
+    }
+
     public static function insertIntoDB(Student $s) {
         self::getDBInstance();
         try {
@@ -75,6 +106,8 @@ class Student extends User {
     public static function removeFromDB($id) {
         self::getDBInstance();
         $stmt = self::$pdo->prepare("DELETE FROM Student WHERE id = :id");
+        $stmt->execute([':id' => $id]);
+        $stmt = self::$pdo->prepare("DELETE FROM User WHERE id = :id");
         $stmt->execute([':id' => $id]);
         if ($stmt->rowCount() > 0) {
             if (self::$debugMode) {
