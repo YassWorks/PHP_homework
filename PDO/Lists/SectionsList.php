@@ -1,8 +1,5 @@
 <?php
-
-include "../header.html";
+include "../components/header.php";
 echo "Sections List";
-
-
-
 ?>
+<?php include '../components/footer.php'; ?>

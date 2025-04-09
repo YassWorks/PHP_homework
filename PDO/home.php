@@ -1,6 +1,7 @@
 <?php 
 
-include "header.html"; 
+include 'components/header.php';
+include 'components/footer.php';
 require_once "Classes/SessionManagerClass.php";
 
 $sess = new SessionManager();
@@ -22,8 +23,9 @@ $sess = new SessionManager();
         $SessionID = $sess->getValueByKey("SuccessfulLogin");
         if(isset($SessionID)){
             echo '
-                <div id="wlcm">
-                    <p>Hello, PHP LOVERS! Welcome to your administration Platform!</p>
+                <div id="wlcm" class="alert alert-info text-center shadow-sm p-4 mt-5 mx-auto" style="max-width: 600px; border-radius: 10px;">
+                    <h4 class="display-4">Hello, PHP LOVERS!</h4>
+                    <p class="lead">Welcome to your <strong>Administration Platform</strong>!</p>
                 </div>
             
             ';
