@@ -176,9 +176,7 @@ if(isset($AdminAuth) && isset($_GET['action']) && isset($_GET['id'])) {
     }
 }
 
-// Process form submissions (add/edit) here.
 if (isset($SessionID) && isset($AdminAuth) && $_SERVER["REQUEST_METHOD"] == "POST") {
-    // Sanitize inputs and implement your logic...
     $id = isset($_POST['id']) ? htmlspecialchars(trim($_POST['id'])) : null;
     $username = htmlspecialchars(trim($_POST['username']));
     $name = htmlspecialchars(trim($_POST['name']));
