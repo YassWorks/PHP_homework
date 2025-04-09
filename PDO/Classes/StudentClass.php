@@ -35,22 +35,22 @@ class Student extends User {
     }
 
     public function __construct($id, $name, $birthdate, $section, $imgUrl, $username=null, $email=null, $password=null) {
-        $name = preg_replace('/\s+/', ' ', trim($name));
-        if (!isset($username)) $username = str_replace(' ', '.', $name);
-        if (!isset($email)) $email = strtolower($username) . "@institute.com";
-        parent::__construct($id, $username, $password, $email, "Student");
         $this->id = $id;
         $this->name = $name;
         $this->birthdate = $birthdate;
         $this->section = $section;
         $this->imgUrl = $imgUrl;
+        $this->username = $username;
+        $this->password = $password;
+        $this->email = $email;
     }
 
-    public function updateStudent($name, $birthdate, $section, $imgUrl) {
-        $this->name = $name;
-        $this->birthdate = $birthdate;
-        $this->section = $section;
-        $this->imgUrl = $imgUrl;
+    public function updateStudent(Student $s) {
+        $this->updateUser($s->username,$s->email,"Student");
+        $this->name = $s->name;
+        $this->birthdate = $s->birthdate;
+        $this->section = $s->section;
+        $this->imgUrl = $s->imgUrl;
         self::getDBInstance();
         $stmt = self::$pdo->prepare("
             UPDATE Student
@@ -80,6 +80,9 @@ class Student extends User {
     public static function insertIntoDB(Student $s) {
         self::getDBInstance();
         try {
+            $user = new User($s->username, $s->password, $s->email,'Student');
+            User::insertUserIntoDB($user);
+            $s->id = $user->id;
             $stmt = self::$pdo->prepare("
                 INSERT INTO Student (id, name, birthdate, section, imgUrl)
                 VALUES (:id, :name, :birthdate, :section, :imgUrl)

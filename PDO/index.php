@@ -73,7 +73,7 @@
                     header("Location: home.php");
                     exit();
                 } else {
-                    echo "User does not exist.";
+                    echo "verify your email or password !";
                 }
             }
         }

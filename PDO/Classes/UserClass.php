@@ -26,29 +26,26 @@ class User {
         }
     }
 
-    public function __construct($id=null, $username=null, $password=null, $email=null, $role=null) {
-        $this->id = $id;
+    public function __construct($username=null, $password=null, $email=null, $role=null) {
         $this->username = $username;
         $this->password = $password;
         $this->email = $email;
         $this->role = $role;
     }
 
-    public function updateUser($username, $password, $email, $role) {
+    public function updateUser($username, $email, $role) {
         $this->username = $username;
-        $this->password = $password;
         $this->email = $email;
         $this->role = $role;
         self::getDBInstance();
         $stmt = self::$pdo->prepare("
             UPDATE User
-            SET username = :username, password = :password, email = :email, role = :role
+            SET username = :username, email = :email, role = :role
             WHERE id = :id
         ");
         $stmt->execute([
             ':id' => $this->id,
             ':username' => $this->username,
-            ':password' => password_hash($this->password, PASSWORD_DEFAULT),
             ':email' => $this->email,
             ':role' => $this->role
         ]);
