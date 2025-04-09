@@ -77,14 +77,14 @@ class Sections {
         }
     }
 
-    public static function removeFromDB(Sections $s) {
+    public static function removeFromDB($id) {
         self::getDBInstance();
         $stmt = self::$pdo->prepare("
             DELETE FROM sections
             WHERE id = :id
         ");
         $stmt->execute([
-            ':id' => $s->id
+            ':id' => $id
         ]);
         if ($stmt->rowCount() > 0) {
             if (self::$debugMode) {

@@ -79,7 +79,7 @@ $user = User::fromArray($userArray);
             </div>
             <div class="modal-footer">
                 <button type="submit" class="btn btn-success">Add Student</button>
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
             </div>
         </form>';
         echo ModalComponent($body, 'Add New Student', 'addStudentModal', 'addStudentModalLabel');
@@ -116,7 +116,7 @@ if(isset($AdminAuth) && isset($_GET['action']) && isset($_GET['id'])) {
             </div>
         </div>
         <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
         </div>';
         echo ModalComponent($body, 'Profile', 'exampleModal', 'exampleModalLabel');
         echo "<script>window.onload = function () { $('#exampleModal').modal('show'); }</script>";
@@ -168,7 +168,7 @@ if(isset($AdminAuth) && isset($_GET['action']) && isset($_GET['id'])) {
             </div>
             <div class="modal-footer">
                 <button type="submit" class="btn btn-primary">Update</button>
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
             </div>
         </form>';
         echo ModalComponent($body, 'Update Student', 'exampleModal', 'exampleModalLabel');

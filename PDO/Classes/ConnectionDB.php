@@ -8,7 +8,7 @@ class ConnectionDB {
     private static $_user = "root";
     private static $_password = "";
     private static $_db = null;
-    private static $_PORT = 3307;
+    private static $_PORT = 3306;
 
     private function __construct() {
         try {
