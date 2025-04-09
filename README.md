@@ -1,4 +1,4 @@
-# TP PHP – Student Management System
+# TP PHP
 
 ### Réalisé par :
 - **Aymen ABID**  
